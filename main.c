@@ -14,10 +14,10 @@
 
 #include <xtensa/tie/xt_hifi2.h>
 
-#define INPUT_FILE_NAME "TestSound4.wav"
+#define INPUT_FILE_NAME "TestSound7.wav"
 #define OUTPUT_FILE_NAME "Output.wav"
 #define FILE_HEADER_SIZE 44
-#define BYTES_PER_SAMPLE 2
+#define BYTES_PER_SAMPLE 4
 #define DATA_BUFF_SIZE 1000
 #define SAMPLE_RATE 48000
 #define CHANNELS 2
@@ -36,7 +36,7 @@ typedef struct {
 typedef struct {
 	ae_f32x2 x[2];
 	ae_f32x2 y[2];
-	ae_f64 remainder[2];
+	ae_f32x2 remainder;
 } BiquadBuff;
 
 typedef struct {
@@ -45,11 +45,13 @@ typedef struct {
 
 
 static inline int32_t doubleToFixed31(double x);
-static inline ae_f32x2 int16ToF32x2(int16_t x, int16_t y);
 static inline ae_f32x2 int32ToF32x2(int32_t x, int32_t y);
 static inline F64x2 putF64ToF64x2(ae_f64 h, ae_f64 l);
+static inline ae_f32x2 F64ToF32x2_H(ae_f64 h, ae_f64 l);
+static inline ae_f32x2 F64ToF32x2_L(ae_int64 h, ae_int64 l);
 static inline ae_f32x2 F64x2ToF32x2(F64x2 x);
 static inline ae_f64 LeftShiftA(ae_f64 x, uint8_t shift);
+static inline ae_f64 RightShiftL(ae_f64 x, uint8_t shift);
 
 static inline F64x2 Mul(ae_f32x2 x, ae_f32x2 y);
 static inline F64x2 Mac(F64x2 acc, ae_f32x2 x, ae_f32x2 y);
@@ -79,7 +81,7 @@ int main()
 
 	readHeader(headerBuff, inputFilePtr);
 	writeHeader(headerBuff, outputFilePtr);
-	//run(inputFilePtr, outputFilePtr, buff, coeffs);
+	run(inputFilePtr, outputFilePtr, &buff, &coeffs);
 	fclose(inputFilePtr);
 	fclose(outputFilePtr);
 
@@ -101,11 +103,6 @@ static inline int32_t doubleToFixed31(double x)
 	return (int32_t)(x * (double)(1LL << 31));
 }
 
-static inline ae_f32x2 int16ToF32x2(int16_t x, int16_t y)
-{
-	return AE_MOVF32X2_FROMINT32X2(AE_MOVDA32X2((int32_t)x << 16, (int32_t)y << 16));
-}
-
 static inline ae_f32x2 int32ToF32x2(int32_t x, int32_t y)
 {
 	return AE_MOVF32X2_FROMINT32X2(AE_MOVDA32X2(x, y));
@@ -120,14 +117,29 @@ static inline F64x2 putF64ToF64x2(ae_f64 h, ae_f64 l)
 	return res;
 }
 
+static inline ae_f32x2 F64ToF32x2_H(ae_f64 h, ae_f64 l)
+{
+	return AE_MOVF32X2_FROMINT32X2(AE_TRUNCI32X2F64S(h, l, 0));
+}
+
+static inline ae_f32x2 F64ToF32x2_L(ae_int64 h, ae_int64 l)
+{
+	return AE_SEL32_LL(AE_MOVINT32X2_FROMINT64(h), AE_MOVINT32X2_FROMINT64(l));
+}
+
 static inline ae_f32x2 F64x2ToF32x2(F64x2 x)
 {
-	return AE_MOVF32X2_FROMINT32X2(AE_MOVDA32X2(AE_MOVINT32_FROMF64(x.h), AE_MOVINT32_FROMF64(x.l)));
+	return F64ToF32x2_H(x.h, x.l);
 }
 
 static inline ae_f64 LeftShiftA(ae_f64 x, uint8_t shift)
 {
 	return AE_SLAA64S(x, shift);
+}
+
+static inline ae_f64 RightShiftL(ae_f64 x, uint8_t shift)
+{
+	return AE_SRLA64(x, shift);
 }
 
 static inline F64x2 Mul(ae_f32x2 x, ae_f32x2 y)
@@ -209,8 +221,7 @@ static inline void initializeBiquadBuff(BiquadBuff *buff)
 	buff->x[1] = int32ToF32x2(0, 0);
 	buff->y[0] = int32ToF32x2(0, 0);
 	buff->y[1] = int32ToF32x2(0, 0);
-	buff->remainder[0] = 0;
-	buff->remainder[1] = 0;
+	buff->remainder = AE_MOVDA32X2(0, 0);
 }
 
 static inline void calculateBiquadCoeffs(BiquadCoeffs *coeffs, double Fc, double Q)
@@ -242,8 +253,9 @@ static inline void calculateBiquadCoeffs(BiquadCoeffs *coeffs, double Fc, double
 static inline ae_f32x2 biquadFilter(ae_f32x2 *data, BiquadBuff *buff, BiquadCoeffs *coeffs)
 {
 	F64x2 acc;
-	acc.h = buff->remainder[0];
-	acc.l = buff->remainder[1];
+	ae_f64 err = AE_MOVF64_FROMF32X2(buff->remainder);
+	acc.h = RightShiftL(err, 32);
+	acc.l = AE_AND64(err, 0xFFFFFFFFLL);
 
 	acc = Mac(acc, coeffs->c[0], *data);
 	acc = MSub(acc, coeffs->c[3], buff->y[0]);
@@ -255,8 +267,10 @@ static inline ae_f32x2 biquadFilter(ae_f32x2 *data, BiquadBuff *buff, BiquadCoef
 	buff->x[0] = *data;
 	buff->y[1] = buff->y[0];
 
-	buff->remainder[0] = AE_AND64(acc.h, 0xFFFFFFFFFFFFLL);
-	buff->remainder[1] = AE_AND64(acc.l, 0xFFFFFFFFFFFFLL);
+	buff->remainder = F64ToF32x2_L(
+							AE_AND64(acc.h, 0x7FFFFFFFLL),
+							AE_AND64(acc.l, 0x7FFFFFFFLL)
+							);
 
 	acc.h = LeftShiftA(acc.h, 1);
 	acc.l = LeftShiftA(acc.l, 1);
@@ -268,7 +282,7 @@ static inline ae_f32x2 biquadFilter(ae_f32x2 *data, BiquadBuff *buff, BiquadCoef
 
 static inline void run(FILE *inputFilePtr, FILE *outputFilePtr, BiquadBuff *buff, BiquadCoeffs *coeffs)
 {
-	int16_t dataBuff[DATA_BUFF_SIZE * CHANNELS];
+	int32_t dataBuff[DATA_BUFF_SIZE * CHANNELS];
 	size_t samplesRead;
 	uint32_t i;
 	ae_f32x2 dataPortion;
@@ -284,11 +298,11 @@ static inline void run(FILE *inputFilePtr, FILE *outputFilePtr, BiquadBuff *buff
 
 		for (i = 0; i < samplesRead / CHANNELS; i++)
 		{
-			dataPortion = int16ToF32x2(dataBuff[i * CHANNELS], dataBuff[i * CHANNELS + 1]);
+			dataPortion = int32ToF32x2(dataBuff[i * CHANNELS], dataBuff[i * CHANNELS + 1]);
 			dataPortion = biquadFilter(&dataPortion, buff, coeffs);
 
-			dataBuff[i * CHANNELS] = AE_MOVAD16_3(AE_MOVF16X4_FROMF32X2(dataPortion));
-			dataBuff[i * CHANNELS + 1] = AE_MOVAD16_1(AE_MOVF16X4_FROMF32X2(dataPortion));
+			dataBuff[i * CHANNELS] = AE_MOVAD32_H(dataPortion);
+			dataBuff[i * CHANNELS + 1] = AE_MOVAD32_L(dataPortion);
 		}
 
 		fwrite(dataBuff, BYTES_PER_SAMPLE, samplesRead, outputFilePtr);
