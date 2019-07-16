@@ -2,17 +2,17 @@ C:\usr\xtensa\XtDevTools\install\tools\RI-2019.1-win32\XtensaTools\bin\xt-run --
 
 Xtensa Core: "hifi3_bd5"  TurboXim Version: 14.01
 
-Time for Simulation = 1.09 seconds  (+ 0.51 seconds for Initialization)
+Time for Simulation = 1.07 seconds  (+ 0.50 seconds for Initialization)
 
-Current PC = 0x60006227
+Current PC = 0x60004dcf
 
 Events                            Number  Number
                                           per 100
                                           instrs 
 
-Committed instructions          2627475 ( 100.00 )
-Taken branches                   182693 (   6.95 )
-Exceptions                         1763 (   0.07 )
-   WindowOverflow                   882 (   0.03 )
-   WindowUnderflow                  881 (   0.03 )
+Committed instructions          2554214 ( 100.00 )
+Taken branches                   180496 (   7.07 )
+Exceptions                         1759 (   0.07 )
+   WindowOverflow                   880 (   0.03 )
+   WindowUnderflow                  879 (   0.03 )
 

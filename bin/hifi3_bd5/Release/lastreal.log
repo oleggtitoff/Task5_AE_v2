@@ -1,31 +1,31 @@
-**** Incremental Build [Mon, 15 Jul 2019 16:28:01] ****
+**** Incremental Build [Tue, 16 Jul 2019 14:10:43] ****
  Project: Task5_AE_v2
  Configuration: hifi3_bd5
  Build Target: Release
 ********************************
 
-"C:\\usr\\xtensa\\XtDevTools\\install\\tools\\RI-2019.1-win32\\XtensaTools\\bin\\xt-xcc" -c -g -O2 -fmessage-length=0 -DPROC_hifi3_bd5 -DCONFIG_hifi3_bd5 --xtensa-system=C:/usr/xtensa/XtDevTools/install/builds/RI-2019.1-win32/hifi3_bd5/config --xtensa-core=hifi3_bd5 --xtensa-params= "\"C:/usr/xtensa/Xplorer-8.0.10-workspaces/workspace/Task5_AE_v2/main.c\"" -o "\"C:/usr/xtensa/Xplorer-8.0.10-workspaces/workspace/Task5_AE_v2/bin/hifi3_bd5/Release/main.o\"" 
-Time taken: 1641 ms 
+"C:\\usr\\xtensa\\XtDevTools\\install\\tools\\RI-2019.1-win32\\XtensaTools\\bin\\xt-xcc" -c -g -O3 -fmessage-length=0 -DPROC_hifi3_bd5 -DCONFIG_hifi3_bd5 --xtensa-system=C:/usr/xtensa/XtDevTools/install/builds/RI-2019.1-win32/hifi3_bd5/config --xtensa-core=hifi3_bd5 --xtensa-params= "\"C:/usr/xtensa/Xplorer-8.0.10-workspaces/workspace/Task5_AE_v2/main.c\"" -o "\"C:/usr/xtensa/Xplorer-8.0.10-workspaces/workspace/Task5_AE_v2/bin/hifi3_bd5/Release/main.o\"" 
+Time taken: 1831 ms 
 
 "C:\\usr\\xtensa\\XtDevTools\\install\\tools\\RI-2019.1-win32\\XtensaTools\\bin\\xt-xc++" -Wl,@C:/usr/xtensa/Xplorer-8.0.10-workspaces/workspace/Task5_AE_v2/bin/hifi3_bd5/Release/objfiles.list -o C:/usr/xtensa/Xplorer-8.0.10-workspaces/workspace/Task5_AE_v2/bin/hifi3_bd5/Release/Task5_AE_v2.minsize -mlsp=sim -Wl,-r -nostdlib --xtensa-system=C:/usr/xtensa/XtDevTools/install/builds/RI-2019.1-win32/hifi3_bd5/config --xtensa-core=hifi3_bd5 --xtensa-params= 
-Time taken: 531 ms 
+Time taken: 436 ms 
 
 "C:\\usr\\xtensa\\XtDevTools\\install\\tools\\RI-2019.1-win32\\XtensaTools\\bin\\xt-xc++" -Wl,@C:/usr/xtensa/Xplorer-8.0.10-workspaces/workspace/Task5_AE_v2/bin/hifi3_bd5/Release/objfiles.list -o C:/usr/xtensa/Xplorer-8.0.10-workspaces/workspace/Task5_AE_v2/bin/hifi3_bd5/Release/Task5_AE_v2 -mlsp=sim --xtensa-system=C:/usr/xtensa/XtDevTools/install/builds/RI-2019.1-win32/hifi3_bd5/config --xtensa-core=hifi3_bd5 --xtensa-params= 
-Time taken: 694 ms 
+Time taken: 576 ms 
 
 ******* Code size summary *****
 
 "C:\\usr\\xtensa\\XtDevTools\\install\\tools\\RI-2019.1-win32\\XtensaTools\\bin\\xt-size" -C C:/usr/xtensa/Xplorer-8.0.10-workspaces/workspace/Task5_AE_v2/bin/hifi3_bd5/Release/Task5_AE_v2 
 TYPE   	   text	 rodata	   data	    bss	    dec    hex	filename
-code   	  25355	      0	      0	      0	  25355	   630b	C:/usr/xtensa/Xplorer-8.0.10-workspaces/workspace/Task5_AE_v2/bin/hifi3_bd5/Release/Task5_AE_v2
-literal	    752	      0	      0	      0	    752	    2f0	C:/usr/xtensa/Xplorer-8.0.10-workspaces/workspace/Task5_AE_v2/bin/hifi3_bd5/Release/Task5_AE_v2
-other  	    933	   1988	    904	   1144	   4969	   1369	C:/usr/xtensa/Xplorer-8.0.10-workspaces/workspace/Task5_AE_v2/bin/hifi3_bd5/Release/Task5_AE_v2
-Total  	  27040	   1988	    904	   1144	  31076	   7964	C:/usr/xtensa/Xplorer-8.0.10-workspaces/workspace/Task5_AE_v2/bin/hifi3_bd5/Release/Task5_AE_v2
+code   	  22445	      0	      0	      0	  22445	   57ad	C:/usr/xtensa/Xplorer-8.0.10-workspaces/workspace/Task5_AE_v2/bin/hifi3_bd5/Release/Task5_AE_v2
+literal	    648	      0	      0	      0	    648	    288	C:/usr/xtensa/Xplorer-8.0.10-workspaces/workspace/Task5_AE_v2/bin/hifi3_bd5/Release/Task5_AE_v2
+other  	    891	   1920	    892	   1128	   4831	   12df	C:/usr/xtensa/Xplorer-8.0.10-workspaces/workspace/Task5_AE_v2/bin/hifi3_bd5/Release/Task5_AE_v2
+Total  	  23984	   1920	    892	   1128	  27924	   6d14	C:/usr/xtensa/Xplorer-8.0.10-workspaces/workspace/Task5_AE_v2/bin/hifi3_bd5/Release/Task5_AE_v2
 
-Time taken: 254 ms 
+Time taken: 241 ms 
 
 ******* ************** *****
 
 Build successful !!
-Total time taken: 3.252 secs
-**** Build Finished [Mon, 15 Jul 2019 16:28:04] ****
+Total time taken: 3.22 secs
+**** Build Finished [Tue, 16 Jul 2019 14:10:46] ****
