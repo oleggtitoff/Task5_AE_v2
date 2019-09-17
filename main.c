@@ -332,7 +332,7 @@
 #define ALWAYS_INLINE static inline __attribute__((always_inline))
 #define NEVER_INLINE static __attribute__((noinline))
 
-#define INPUT_FILE_NAME "TestSound7.wav"
+#define INPUT_FILE_NAME "Sine -12.wav"
 #define OUTPUT_FILE_NAME "Output.wav"
 #define FILE_HEADER_SIZE 44
 #define BYTES_PER_SAMPLE 4
@@ -340,7 +340,7 @@
 #define SAMPLE_RATE 48000
 #define CHANNELS 2
 
-#define FC 200
+#define FC 20
 #define Q_VALUE 0.707		//must be between 0 and 0.707
 
 #define PI 3.14159265358979323846

@@ -1,17 +1,17 @@
-**** Incremental Build [Tue, 16 Jul 2019 16:26:28] ****
+**** Incremental Build [Tue, 6 Aug 2019 12:32:19] ****
  Project: Task5_AE_v2
  Configuration: hifi3_bd5
  Build Target: Debug
 ********************************
 
 "C:\\usr\\xtensa\\XtDevTools\\install\\tools\\RI-2019.1-win32\\XtensaTools\\bin\\xt-xcc" -c -g -O0 -fmessage-length=0 -DPROC_hifi3_bd5 -DCONFIG_hifi3_bd5 --xtensa-system=C:/usr/xtensa/XtDevTools/install/builds/RI-2019.1-win32/hifi3_bd5/config --xtensa-core=hifi3_bd5 --xtensa-params= "\"C:/usr/xtensa/Xplorer-8.0.10-workspaces/workspace/Task5_AE_v2/main.c\"" -o "\"C:/usr/xtensa/Xplorer-8.0.10-workspaces/workspace/Task5_AE_v2/bin/hifi3_bd5/Debug/main.o\"" 
-Time taken: 1798 ms 
+Time taken: 2953 ms 
 
 "C:\\usr\\xtensa\\XtDevTools\\install\\tools\\RI-2019.1-win32\\XtensaTools\\bin\\xt-xc++" -Wl,@C:/usr/xtensa/Xplorer-8.0.10-workspaces/workspace/Task5_AE_v2/bin/hifi3_bd5/Debug/objfiles.list -o C:/usr/xtensa/Xplorer-8.0.10-workspaces/workspace/Task5_AE_v2/bin/hifi3_bd5/Debug/Task5_AE_v2.minsize -mlsp=sim -Wl,-r -nostdlib --xtensa-system=C:/usr/xtensa/XtDevTools/install/builds/RI-2019.1-win32/hifi3_bd5/config --xtensa-core=hifi3_bd5 --xtensa-params= 
-Time taken: 497 ms 
+Time taken: 766 ms 
 
 "C:\\usr\\xtensa\\XtDevTools\\install\\tools\\RI-2019.1-win32\\XtensaTools\\bin\\xt-xc++" -Wl,@C:/usr/xtensa/Xplorer-8.0.10-workspaces/workspace/Task5_AE_v2/bin/hifi3_bd5/Debug/objfiles.list -o C:/usr/xtensa/Xplorer-8.0.10-workspaces/workspace/Task5_AE_v2/bin/hifi3_bd5/Debug/Task5_AE_v2 -mlsp=sim --xtensa-system=C:/usr/xtensa/XtDevTools/install/builds/RI-2019.1-win32/hifi3_bd5/config --xtensa-core=hifi3_bd5 --xtensa-params= 
-Time taken: 705 ms 
+Time taken: 1079 ms 
 
 ******* Code size summary *****
 
@@ -22,10 +22,10 @@ literal	    768	      0	      0	      0	    768	    300	C:/usr/xtensa/Xplorer-8.
 other  	    929	   1992	    904	   1144	   4969	   1369	C:/usr/xtensa/Xplorer-8.0.10-workspaces/workspace/Task5_AE_v2/bin/hifi3_bd5/Debug/Task5_AE_v2
 Total  	  28632	   1992	    904	   1144	  32672	   7fa0	C:/usr/xtensa/Xplorer-8.0.10-workspaces/workspace/Task5_AE_v2/bin/hifi3_bd5/Debug/Task5_AE_v2
 
-Time taken: 304 ms 
+Time taken: 359 ms 
 
 ******* ************** *****
 
 Build successful !!
-Total time taken: 3.451 secs
-**** Build Finished [Tue, 16 Jul 2019 16:26:32] ****
+Total time taken: 5.188 secs
+**** Build Finished [Tue, 6 Aug 2019 12:32:25] ****
